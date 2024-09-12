@@ -66,7 +66,7 @@ x <- 3
 
 # FizzBuzz code goes here
 FizzBuzz <- function(x){
-  ## write FizzBuzz first (if it is TRUE)
+  ## write FizzBuzz first (if it is TRUE) otherwise I cannot get the output of FizzBuzz when x=15
   if (x%%3 == 0 & x%%5 == 0) {
     print("FizzBuzz")
   } else if (x%%3 == 0) {
@@ -84,6 +84,8 @@ FizzBuzz(15)
 ```
 
 ```{r alternative-fizzbuzz-r, echo = TRUE}
+## If I do not use a function, a if statement would work ...
+
 x <- 3
 # FizzBuzz code goes here
 if (x%%3 == 0 && x%%5 == 0){
@@ -121,6 +123,8 @@ FizzBuzz(30)
 ```
 
 ```{python alternative-fizzbuzz-stored-py, echo = T}
+## If it is not a function, another way to solve the problem is:
+
 import numpy as np
 x = 3
 # FizzBuzz code goes here
@@ -179,27 +183,35 @@ The code in the previous problem only solves FizzBuzz for a single value of `x`.
 You can copy/paste code from previous chunks to make this chunk easier.
 
 ```{r vector-fizzbuzz-r, echo = T}
-xx <- 1:30
-yy <- rep(NA, times = 30)
+xx <- 1:30 #is int
+yy <- rep(NA, times = 30) #here, yy is logical
 
 # FizzBuzz code goes here
-for (i in xx) {
-  if (i%%3 == 0 && i%%5 == 0){
+for (i in 1:length(xx)){ #1:length() same as seq_along
+  if (xx[i]%%3 == 0 && xx[i]%%5 == 0){
     yy[i] <- "FizzBuzz"
-  } else if (i%%3 == 0){
+  }
+  else if (xx[i]%%3 == 0){
     yy[i] <- "Fizz"
-  } else if (i%%5 == 0){
+  }
+  else if (xx[i]%%5 == 0){
     yy[i] <- "Buzz"
-  } else
+  }
+  else{
     yy[i] <- xx[i]
+  }
 }
-## Convert yy into a dataframe
-#yy <- data.frame(yy)
 
 # Printing the results in a data frame
-res <- cbind(x = xx, result = yy)
-res
+res <- cbind(x = xx, result = yy) 
+#res #is int before modify
+## Discussion:
+## The output of the res has quotes, then we can remove the quotes.
+## I had try to do convert such as.logical before printing the results but could not get the output similar to the instruction
+## Finally, adding the follow code to obtain the results in a data frame
+res <- data.frame(res);res
 ```
+
 
 ```{python vector-fizzbuzz-py, echo = T}
 import pandas as pd
@@ -207,26 +219,26 @@ xx = np.array(range(30)) + 1
 yy = [np.nan]*30 
 
 # FizzBuzz code goes here
-for i in xx: # i in index rather than in XX
-  if (i%3 == 0) & (i%5 == 0):
-    yy[i-1] = "FizzBuzz" 
-  elif i%3 == 0:
-    yy[i-1] = "Fizz"
-  elif i%5 == 0:
-    yy[i-1] = "Buzz"
+for i in range(len(xx)): 
+  if (xx[i]%3 == 0) and (xx[i]%5 == 0):
+    yy[i] = "FizzBuzz" 
+  elif xx[i]%3 == 0:
+    yy[i] = "Fizz"
+  elif xx[i]%5 == 0:
+    yy[i] = "Buzz"
   else:
-    yy[i-1] = xx[i]
+    yy[i] = xx[i]
 
 # Alternative way
-#for i in range(len(xx)): 
-#  if (xx[i]%3 == 0) and (xx[i]%5 == 0):
-#    yy[i] = "FizzBuzz" 
-#  elif xx[i]%3 == 0:
-#    yy[i] = "Fizz"
-#  elif xx[i]%5 == 0:
-#    yy[i] = "Buzz"
+#for i in xx: # i in index rather than in XX
+#  if (i%3 == 0) & (i%5 == 0):
+#    yy[i-1] = "FizzBuzz" 
+#  elif i%3 == 0:
+#    yy[i-1] = "Fizz"
+#  elif i%5 == 0:
+#    yy[i-1] = "Buzz"
 #  else:
-#    yy[i] = xx[i]
+#    yy[i-1] = i
     
 # Printing the results in a data frame
 res = pd.DataFrame({"x": xx, "result": yy})
@@ -263,7 +275,10 @@ yy <- fizzbuzz(x = xx)
 
 # Printing the results in a data frame
 res <- cbind(x = xx, result = yy)
-res
+#res
+## I got same issue to print results in a data frame: quotes in the output
+## Using data.frame() function again.
+res <- data.frame(res);res
 ```
 
 ```{python function-fizzbuzz-py}
@@ -295,26 +310,6 @@ res = pd.DataFrame({"x": xx, "result": yy})
 res
 ```
 
-------------------------------------------
-**Notes:**
-
-Both two functions occur index error and we can use a simple example to observe the differences.
-
-In Python:\
-If we use x instead of range(len(x)), there is an error such that "IndexError: list index out of range
-```{python index-error, error = TRUE}
-x = [1, 2, 3]
-for i in x:
-    print(i, x[i])
-```
-
-
-```{python index-error-fix}
-x = [1, 2, 3]
-for i in range(len(x)):
-    print(i, x[i])
-```
-
 # Defensive Programming
 
 You cannot always assume that the person using your functions knows what they're doing. Add a check to the function you wrote in the last question so that it will handle non-numeric input by issuing an error message.
@@ -344,16 +339,14 @@ yy <- rep(NA, 10)
 
 fizzbuzz <- function(x) {
   # Your code goes here
-  ## xx is from 1 to 100, integer
-  ##check x is integer
-  stopifnot(is.integer(x))
   ##check x is numeric
   stopifnot(is.numeric(x))
   ##check x is positive (x>=1)
   stopifnot(all(x)>=1)
-  ## check the input and output have same length
-  ##check length/index same
-  stopifnot(length(yy) == length(x))
+  ##check x is integer
+  stopifnot(is.integer(x))
+  ##check length 
+  stopifnot(length(x) == length(yy))
   
   ##Same as previous
   for (i in seq_along(xx)) {
@@ -375,13 +368,34 @@ yy <- fizzbuzz(x = xx)
 
 # Printing the results in a data frame
 res <- cbind(x = xx, result = yy)
-res
+#res
+## convert outputs in a data frame
+res <- data.frame(res); res
+
 ```
 
 ```{r, error = T}
-fizzbuzz(x = "az")
+## check input scenarios
+xx <- "az"
+yy <- fizzbuzz(x = xx)
+
+xx <- c(22.1, 30.4, 55, 1, 2, 10, 3, 5, 9, 10)
+yy <- fizzbuzz(x = xx)
+
+xx <-c (-1, -2, -3, 10, 15, 9, -3, 0, 12, 15)
+yy <- fizzbuzz(x = xx)
+
+xx <- sample(1:100, 9)
+yy <- fizzbuzz(x = xx);yy
 ```
 
+
+Discussion: \
+The order of each statement of 'stopifnot' is important in the above code. I followed the questions below to check input validation:
+1. Are inputs numeric?
+2. Are inputs integers (Inputs are sampled from 1:100)?
+3. Are inputs positive?
+4. Are input has same length?
 
 ```{python function-error-fizzbuzz-py}
 import pandas as pd
