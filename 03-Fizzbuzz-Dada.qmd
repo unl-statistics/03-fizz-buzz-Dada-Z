@@ -57,7 +57,7 @@ Start by filling in the following table for the numbers 1:30 manually, to get a 
 
 On paper or using a tool such as [https://excalidraw.com](https://excalidraw.com), create a program flow map for the sequence of if-statements you need to evaluate for fizzbuzz. Add the picture to the folder containing this file, and name the picture flowchart.png. Add the picture to Git and commit/push your changes. 
 
-![Program Flow map for FizzBuzz](flowchart.png)
+![Program Flow map for FizzBuzz](flowchart_dz.png)
 
 In the chunk below, write code which will solve this problem for a single value `x`. You should be able to change the value of x at the top of the chunk and still get the correct answer.
 
@@ -79,6 +79,22 @@ FizzBuzz <- function(x){
 }
 
 FizzBuzz(x)
+FizzBuzz(5)
+FizzBuzz(15)
+```
+
+```{r alternative-fizzbuzz-r, echo = TRUE}
+x <- 3
+# FizzBuzz code goes here
+if (x%%3 == 0 && x%%5 == 0){
+    print("FizzBuzz")
+  } else if (x%%3 == 0){
+    print("Fizz")
+  } else if (x%%5 == 0){
+    print("Buzz")
+  } else{
+    print(x)
+  }
 ```
 
 
@@ -99,7 +115,23 @@ def FizzBuzz (x):
   else: 
     return x
 
-print("FizzBuzz output: ", FizzBuzz(x))
+FizzBuzz(x)
+FizzBuzz(10)
+FizzBuzz(30)
+```
+
+```{python alternative-fizzbuzz-stored-py, echo = T}
+import numpy as np
+x = 3
+# FizzBuzz code goes here
+if (x%3 == 0) & (x%5 == 0):
+  print("FizzBuzz")
+elif x%3 == 0:
+  print("Fizz")
+elif x%5 == 0:
+  print("Buzz")
+else:
+  x
 ```
 
 Modify the code above so that the result is stored in a value `y`.
@@ -117,7 +149,6 @@ if (x%%3 == 0 && x%%5 == 0){
   } else{
     y <- x
 }
-
 
 print(paste("For x = ", x, " my code produces ", y, sep = ""))
 ```
@@ -137,7 +168,6 @@ elif x%5 == 0:
 else:
   y = x
 
-
 print("For x = "+ str(x)+ " my code produces "+ str(y))
 ```
 
@@ -153,10 +183,6 @@ xx <- 1:30
 yy <- rep(NA, times = 30)
 
 # FizzBuzz code goes here
-xx <- 1:30 #int [1:30]
-yy <- rep(NA, times = 30) #logi [1:30]
-
-# FizzBuzz code goes here
 for (i in xx) {
   if (i%%3 == 0 && i%%5 == 0){
     yy[i] <- "FizzBuzz"
@@ -165,7 +191,7 @@ for (i in xx) {
   } else if (i%%5 == 0){
     yy[i] <- "Buzz"
   } else
-    yy[i] <- i
+    yy[i] <- xx[i]
 }
 ## Convert yy into a dataframe
 #yy <- data.frame(yy)
@@ -178,19 +204,30 @@ res
 ```{python vector-fizzbuzz-py, echo = T}
 import pandas as pd
 xx = np.array(range(30)) + 1
-yy = [np.nan]*30
+yy = [np.nan]*30 
 
 # FizzBuzz code goes here
-for i in xx:
+for i in xx: # i in index rather than in XX
   if (i%3 == 0) & (i%5 == 0):
-    yy[i-1] = "FizzBuzz" #fix yy[1]=NaN 
+    yy[i-1] = "FizzBuzz" 
   elif i%3 == 0:
     yy[i-1] = "Fizz"
   elif i%5 == 0:
     yy[i-1] = "Buzz"
   else:
-    yy[i-1] = xx[i-1]
+    yy[i-1] = xx[i]
 
+# Alternative way
+#for i in range(len(xx)): 
+#  if (xx[i]%3 == 0) and (xx[i]%5 == 0):
+#    yy[i] = "FizzBuzz" 
+#  elif xx[i]%3 == 0:
+#    yy[i] = "Fizz"
+#  elif xx[i]%5 == 0:
+#    yy[i] = "Buzz"
+#  else:
+#    yy[i] = xx[i]
+    
 # Printing the results in a data frame
 res = pd.DataFrame({"x": xx, "result": yy})
 res
@@ -216,7 +253,7 @@ fizzbuzz <- function(x) {
     } else if (xx[i]%%5 == 0){
       yy[i] <- "Buzz"
     } else
-      yy[i] <- xx[i]
+      yy[i] <- x[i]
     
   }
   return(yy)
@@ -239,7 +276,6 @@ xx = np.array(choices(range(100), k = 10)) + 1
 def fizzbuzz(x):
   y = [np.nan]*len(x) # this just defines something to return
   # Your code goes here
-  ## Error of indexing (same as above)
   ## Fix IndexError: range((len)())
   for i in range(len(x)):
     if (x[i]%3 == 0) & (x[i]%5 == 0):
@@ -308,14 +344,44 @@ yy <- rep(NA, 10)
 
 fizzbuzz <- function(x) {
   # Your code goes here
+  ## xx is from 1 to 100, integer
+  ##check x is integer
+  stopifnot(is.integer(x))
+  ##check x is numeric
+  stopifnot(is.numeric(x))
+  ##check x is positive (x>=1)
+  stopifnot(all(x)>=1)
+  ## check the input and output have same length
+  ##check length/index same
+  stopifnot(length(yy) == length(x))
+  
+  ##Same as previous
+  for (i in seq_along(xx)) {
+    if (xx[i]%%3 == 0 & xx[i]%%5 == 0){
+      yy[i] <- "FizzBuzz"
+    } else if (xx[i]%%3 == 0){
+      yy[i] <- "Fizz"
+    } else if (xx[i]%%5 == 0){
+      yy[i] <- "Buzz"
+    } else
+      yy[i] <- x[i]
+    
+  }
+  return(yy)
 }
 
+## Check multiple inputs: x=22.2, x="az"
 yy <- fizzbuzz(x = xx)
 
 # Printing the results in a data frame
 res <- cbind(x = xx, result = yy)
 res
 ```
+
+```{r, error = T}
+fizzbuzz(x = "az")
+```
+
 
 ```{python function-error-fizzbuzz-py}
 import pandas as pd
@@ -324,13 +390,44 @@ xx = np.array(choices(range(100), k = 10)) + 1
 
 
 def fizzbuzz(x):
-  y = [np.nan]*len(x) # this just defines something to return
-  # Your code goes here
-  return y
+  ## Input must be an array
+  try:
+      if not isinstance(x, np.ndarray):
+        raise TypeError("x(input) must be an array")
 
+      y = [np.nan]*len(x) # this just defines something to return
+      # Your code goes here
+      ## input 
+      for i in range(len(x)):
+        if (x[i]%3 == 0) & (x[i]%5 == 0):
+          y[i] = "FizzBuzz"
+        elif x[i]%3 == 0:
+          y[i] = "Fizz"
+        elif x[i]%5 == 0:
+          y[i] = "Buzz"
+        else:
+          y[i] = xx[i]
+      return y
+  ## except Exception,e [See reference]
+  ## print e
+  except TypeError as e:
+    print(e)
+  
 yy = fizzbuzz(x = xx)
 
 # Printing the results in a data frame
 res = pd.DataFrame({"x": xx, "result": yy})
 res
 ```
+
+Reference:
+- Get a Try statement to loop around until correct value obtained. https://stackoverflow.com/questions/2244270/get-a-try-statement-to-loop-around-until-correct-value-obtained
+
+```{python}
+xx = [1, 2, 3, 4, 5]  # This is a list, not a numpy array
+yy = fizzbuzz(x=xx)
+
+```
+
+
+
