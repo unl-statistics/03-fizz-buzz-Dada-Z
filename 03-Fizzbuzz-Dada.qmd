@@ -29,7 +29,7 @@ Start by filling in the following table for the numbers 1:30 manually, to get a 
 | 5     | Buzz       |
 | 6     | Fizz       |
 | 7     | 7       |
-| 8     | 9       |
+| 8     | 8       |
 | 9     | Fizz       |
 | 10    | Buzz       |
 | 11    | 11       |
@@ -79,8 +79,8 @@ FizzBuzz <- function(x){
 }
 
 FizzBuzz(x)
-FizzBuzz(5)
-FizzBuzz(15)
+#FizzBuzz(5)
+#FizzBuzz(15)
 ```
 
 ```{r alternative-fizzbuzz-r, echo = TRUE}
@@ -118,8 +118,8 @@ def FizzBuzz (x):
     return x
 
 FizzBuzz(x)
-FizzBuzz(10)
-FizzBuzz(30)
+#FizzBuzz(10)
+#FizzBuzz(30)
 ```
 
 ```{python alternative-fizzbuzz-stored-py, echo = T}
@@ -208,7 +208,7 @@ res <- cbind(x = xx, result = yy)
 ## Discussion:
 ## The output of the res has quotes, then we can remove the quotes.
 ## I had try to do convert such as.logical before printing the results but could not get the output similar to the instruction
-## Finally, adding the follow code to obtain the results in a data frame
+## Finally, add the following code to obtain the results in a data frame
 res <- data.frame(res);res
 ```
 
@@ -342,9 +342,7 @@ fizzbuzz <- function(x) {
   ##check x is numeric
   stopifnot(is.numeric(x))
   ##check x is positive (x>=1)
-  stopifnot(all(x)>=1)
-  ##check x is integer
-  stopifnot(is.integer(x))
+  stopifnot(x>0)
   ##check length 
   stopifnot(length(x) == length(yy))
   
@@ -363,7 +361,6 @@ fizzbuzz <- function(x) {
   return(yy)
 }
 
-## Check multiple inputs: x=22.2, x="az"
 yy <- fizzbuzz(x = xx)
 
 # Printing the results in a data frame
@@ -379,10 +376,7 @@ res <- data.frame(res); res
 xx <- "az"
 yy <- fizzbuzz(x = xx)
 
-xx <- c(22.1, 30.4, 55, 1, 2, 10, 3, 5, 9, 10)
-yy <- fizzbuzz(x = xx)
-
-xx <-c (-1, -2, -3, 10, 15, 9, -3, 0, 12, 15)
+xx <-c (-1, -2, -3, 10, 15, 9, -3, 7, 12, 15)
 yy <- fizzbuzz(x = xx)
 
 xx <- sample(1:100, 9)
@@ -390,12 +384,13 @@ yy <- fizzbuzz(x = xx);yy
 ```
 
 
-Discussion: \
-The order of each statement of 'stopifnot' is important in the above code. I followed the questions below to check input validation:
+*Discussion: *
+
+The order of each statement of 'stopifnot' is important in the above code. I followed the questions to check input validation:
+
 1. Are inputs numeric?
-2. Are inputs integers (Inputs are sampled from 1:100)?
-3. Are inputs positive?
-4. Are input has same length?
+2. Are inputs positive (Inputs are sampled from 1:100)?
+4. Are input has same length as output?
 
 ```{python function-error-fizzbuzz-py}
 import pandas as pd
@@ -407,7 +402,7 @@ def fizzbuzz(x):
   ## Input must be an array
   try:
       if not isinstance(x, np.ndarray):
-        raise TypeError("x(input) must be an array")
+        raise TypeError("x (input) must be an array")
 
       y = [np.nan]*len(x) # this just defines something to return
       # Your code goes here
@@ -435,12 +430,18 @@ res
 ```
 
 Reference:
+
 - Get a Try statement to loop around until correct value obtained. https://stackoverflow.com/questions/2244270/get-a-try-statement-to-loop-around-until-correct-value-obtained
 
+- Errors and Exceptions. https://docs.python.org/3/tutorial/errors.html
+
 ```{python}
-xx = [1, 2, 3, 4, 5]  # This is a list, not a numpy array
+## Test
+xx = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
 yy = fizzbuzz(x=xx)
 
+xx = "a", 1, "cc", 5, 6
+yy = fizzbuzz(x=xx[0])
 ```
 
 
